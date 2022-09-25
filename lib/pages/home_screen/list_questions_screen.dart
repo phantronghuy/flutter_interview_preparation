@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_interview_preparation/pages/home_screen/article_tab_screen.dart';
+import 'package:flutter_interview_preparation/pages/home_screen/qa_detail_screen.dart';
 import 'package:flutter_interview_preparation/pages/home_screen/qa_tab_screen.dart';
+import 'package:flutter_interview_preparation/pages/profile_screen/profile_page.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Assets.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Colors.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Fonts.dart';
@@ -22,39 +23,47 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isArticleTab=0;
+    isArticleTab = 0;
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        child: Icon(Icons.add)
+      ),
         body: Column(
           children: [
             Expanded(
               flex: 2,
-              child: Container(child: Image.asset(HomeScreenAssets.banner,fit: BoxFit.fitWidth,),width: double.infinity,),
+              child: Container(
+                child: Image.asset(
+                  HomeScreenAssets.banner,
+                  fit: BoxFit.fitWidth,
+                ),
+                width: double.infinity,
+              ),
             ),
             Expanded(
               flex: 1,
               child: tabViewContent(),
             ),
-
             Expanded(
               flex: 1,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
-                child: isArticleTab==0?QA():searchPart() ,
+                child: isArticleTab == 0 ? QA() : searchPart(),
               ),
             ),
             Expanded(
               flex: 7,
               child: Container(
                 color: const Color(0xffEDEAEA),
-                child: isArticleTab == 0
-                    ? Articles()
-                    : contentListQuestions(),
+                child: isArticleTab == 0 ? Articles() : contentListQuestions(),
               ),
             ),
           ],
@@ -68,13 +77,12 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
       length: 2,
       child: Material(
         color: HomeScreenColors.primaryColor,
-        child:
-        TabBar(
+        child: TabBar(
           onTap: (index) {
             onTapHandle(index);
           },
-           indicatorColor: Color(0xffF0B10E),
-           indicatorWeight: 5,
+          indicatorColor: Color(0xffF0B10E),
+          indicatorWeight: 5,
           tabs: [
             Tab(
               child: Text(
@@ -101,8 +109,7 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
   }
 
   Widget searchPart() {
-    return
-      Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
@@ -116,24 +123,26 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
         ),
         Row(
           children: [
-            Spacer(),Text(
+            Spacer(),
+            Text(
               'Company',
               style: HomeScreenFonts.h1
                   .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-
             ),
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Container(
-              width: MediaQuery.of(context).size.width*0.62,
+              width: MediaQuery.of(context).size.width * 0.62,
               height: 20,
-              decoration:BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color(0xffEDEAEA),
               ),
               child: TextField(
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(top:1),
+                  contentPadding: EdgeInsets.only(top: 1),
                   // filled: true,
                   //fillColor: Color(0xff302360),
                   border: OutlineInputBorder(
@@ -143,16 +152,13 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
 
                   hintStyle: const TextStyle(fontSize: 12),
                   hintText: 'Search Company',
-                  prefixIcon: const Icon(Icons.search,size: 17),
+                  prefixIcon: const Icon(Icons.search, size: 17),
                   prefixIconColor: Colors.purple.shade900,
-                    // border: InputBorder.none,
-                    // prefixIcon: Icon(Icons.search,size: 16,),
-                    // hintText: 'Search company',
-                    // hintStyle: TextStyle(fontSize: 12),
-
+                  // border: InputBorder.none,
+                  // prefixIcon: Icon(Icons.search,size: 16,),
+                  // hintText: 'Search company',
+                  // hintStyle: TextStyle(fontSize: 12),
                 ),
-
-
               ),
             ),
           ],
@@ -161,50 +167,70 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
     );
   }
 
-
   Widget contentListQuestions() {
     return ListView.custom(
       childrenDelegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
+          return InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                    fullscreenDialog: false,
+                    builder: (context) => QaDetailScreen()));
+            },
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
                   blurRadius: 2,
-                  offset: Offset(0.0,3),
+                  offset: Offset(0.0, 3),
                   color: Colors.grey,
                 ),
-              ]
-            ),
-            width: MediaQuery.of(context).size.width,
-            margin:const EdgeInsets.only(bottom: 5),
-            child: Row(
-              children: [
-                //Vote bloc
-                Container(
-                  padding: const EdgeInsets.only(left: 4),
-                  // color:Colors.red,
-                  width: MediaQuery.of(context).size.width / 5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Vote
-                      Padding(
-                        padding: const EdgeInsets.only(
-                             top: 3.0, bottom: 12.0),
-                        child: Row(
+              ]),
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.only(bottom: 5),
+              child: Row(
+                children: [
+                  //Vote bloc
+                  Container(
+                    padding: const EdgeInsets.only(left: 4),
+                    // color:Colors.red,
+                    width: MediaQuery.of(context).size.width / 5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Vote
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 3.0, bottom: 12.0),
+                          child: Row(
+                            children: [
+                              Icon(display_list_question[index].upvote! > 0
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: Text(
+                                  display_list_question[index]
+                                      .upvote
+                                      .toString(),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Comment
+                        Row(
                           children: [
-                            Icon(display_list_question[index].upvote! > 0
-                                ? Icons.arrow_upward
-                                : Icons.arrow_downward),
+                            const Icon(Icons.comment),
                             Padding(
-                              padding: const EdgeInsets.only(left: 4.0),
+                              padding:
+                                  const EdgeInsets.only(left: 5, bottom: 2),
                               child: Text(
-                                display_list_question[index]
-                                    .upvote
-                                    .toString(),
+                                display_list_question[index].comment.toString(),
                                 style: const TextStyle(
                                   fontSize: 11,
                                 ),
@@ -212,116 +238,101 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
                             ),
                           ],
                         ),
-                      ),
-                      // Comment
-                      Row(
-                        children: [
-                          const Icon(Icons.comment),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 5, bottom: 2),
-                            child: Text(
-                              display_list_question[index].comment.toString(),
+                      ],
+                    ),
+                  ),
+
+                  //Content bloc
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 2.0, top: 1, bottom: 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //Title
+                        Container(
+                          padding: const EdgeInsets.only(top: 1, bottom: 4),
+                          width: MediaQuery.of(context).size.width * 9 / 15 - 5,
+                          child: Text(
+                            display_list_question[index].title!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        //Tags
+                        Row(
+                          children: [
+                            for (var item in display_list_question[index].tags!)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 3, bottom: 2),
+                                child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    color: const Color(0xffDFE2EB),
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        color: Colors.lightBlue,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )),
+                              )
+                          ],
+                        ),
+                        //Content
+                        Container(
+                          width: MediaQuery.of(context).size.width * 9 / 15 - 5,
+                          padding: const EdgeInsets.only(top: 2, bottom: 2),
+                          //width: 150,
+                          child: RichText(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              text: display_list_question[index].content!,
                               style: const TextStyle(
-                                fontSize: 11,
+                                color: Colors.black,
+                                fontSize: 12,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                //Content bloc
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 2.0, top: 1, bottom: 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //Title
-                      Container(
-                        padding: const EdgeInsets.only(top: 1, bottom: 4),
-                        width: MediaQuery.of(context).size.width * 9 / 15-5,
-                        child: Text(
-                          display_list_question[index].title!,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
                         ),
-                      ),
-                      //Tags
-                      Row(
-                        children: [
-                          for (var item in display_list_question[index].tags!)
-                            Padding(
-                              padding:const EdgeInsets.only(right: 3, bottom: 2),
-                              child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  color:const Color(0xffDFE2EB),
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      color: Colors.lightBlue,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )),
-                            )
-                        ],
-                      ),
-                      //Content
-                      Container(
-                        width: MediaQuery.of(context).size.width * 9 / 15-5,
-                        padding: const EdgeInsets.only(top: 2, bottom: 2),
-                        //width: 150,
-                        child: RichText(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                            text: display_list_question[index].content!,
+                      ],
+                    ),
+                  ),
+                  // Company bloc
+                  SizedBox(
+                    //color: Colors.red,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //Company Icon
+                        SizedBox(
+                          // padding: EdgeInsets.only(left: 15),
+                          child: Image.asset(
+                              alignment: Alignment.centerRight,
+                              fit: BoxFit.contain,
+                              width: 50,
+                              height: 50,
+                              display_list_question[index].company!),
+                        ),
+                        //TimePost
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: Text(
+                            display_list_question[index].time!,
                             style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
+                              fontSize: 8,
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                // Company bloc
-                SizedBox(
-                  //color: Colors.red,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //Company Icon
-                      SizedBox(
-                       // padding: EdgeInsets.only(left: 15),
-                        child: Image.asset(
-                            alignment: Alignment.centerRight,
-                            fit: BoxFit.contain,
-                            width: 50,
-                            height: 50,
-                            display_list_question[index].company!),
-                      ),
-                      //TimePost
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          display_list_question[index].time!,
-                          style: const TextStyle(
-                            fontSize: 8,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -329,7 +340,6 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
       ),
     );
   }
-
 
   void onTapHandle(int index) {
     setState(() {

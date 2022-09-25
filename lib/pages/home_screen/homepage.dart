@@ -14,10 +14,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
           child: ListQuetionsScreen(),
         ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: Icon(Icons.add)
-      ),
+
     );
   }
 }
