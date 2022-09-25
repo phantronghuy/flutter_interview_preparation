@@ -133,23 +133,23 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
               child: TextField(
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
-<<<<<<< HEAD
+                  contentPadding: EdgeInsets.only(top:1),
                   // filled: true,
                   //fillColor: Color(0xff302360),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
+
                   hintStyle: const TextStyle(fontSize: 12),
                   hintText: 'Search Company',
                   prefixIcon: const Icon(Icons.search,size: 17),
                   prefixIconColor: Colors.purple.shade900,
-=======
-                    border: InputBorder.none,
-                    prefixIcon: Icon(Icons.search,size: 16,),
-                    hintText: 'Search company',
-                    hintStyle: TextStyle(fontSize: 12),
->>>>>>> 9f42100bb82e61f382f81bad91967e333720002d
+                    // border: InputBorder.none,
+                    // prefixIcon: Icon(Icons.search,size: 16,),
+                    // hintText: 'Search company',
+                    // hintStyle: TextStyle(fontSize: 12),
+
                 ),
 
 
