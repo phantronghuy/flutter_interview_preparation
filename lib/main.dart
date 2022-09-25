@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_interview_preparation/pages/home_screen/homepage.dart';
-import 'package:flutter_interview_preparation/pages/home_screen/landing_screen.dart';
 import 'package:flutter_interview_preparation/pages/home_screen/list_questions_screen.dart';
 import 'package:flutter_interview_preparation/pages/profile_screen/profile_page.dart';
 import 'package:flutter_interview_preparation/pages/quizz_screen/quizz_page.dart';
@@ -8,172 +8,82 @@ import 'package:flutter_interview_preparation/pages/search_screen/search_page.da
 import 'package:flutter_interview_preparation/values/Home_Screen_Colors.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
       ),
-      home: TabFrame(),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class TabFrame extends StatefulWidget {
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  State<TabFrame> createState() => _TabFrameState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _TabFrameState extends State<TabFrame> {
-  int _currentIndexBottomTab = 0;
-  int currentTab = 0;
-  final List<Widget> screens = [
-    HomePage(),
-    SearchPage(),
-    QuizzPage(),
-    ProfilePage()
-  ];
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = HomePage();
+class _MyHomePageState extends State<MyHomePage> {
+
+  final screens=[HomePage(),ProfilePage(),QuizzPage(),ProfilePage()];
+  int sc=0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageStorage(
-        child: currentScreen,
-        bucket: bucket,
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 10,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 4,
-                    child: MaterialButton(
-                      onPressed: () {
-                        setState(() {
-                          currentScreen = HomePage();
-                          currentTab = 0;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.home,
-                            color: currentTab == 0 ? Colors.blue : Colors.black,
-                          ),
-                          Text(
-                            'Home',
-                            style: TextStyle(
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 4,
-                    child: MaterialButton(
-                      onPressed: () {
-                        setState(() {
-                          currentScreen = SearchPage();
-                          currentTab = 1;
-                        });
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 4,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color:
-                                  currentTab == 1 ? Colors.blue : Colors.black,
-                            ),
-                            Text(
-                              'Search',
-                              style: TextStyle(
-                                color:
-                                    currentTab == 1 ? Colors.blue : Colors.black,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 4,
-                    child: MaterialButton(
-                      onPressed: () {
-                        setState(() {
-                          currentScreen = QuizzPage();
-                          currentTab = 2;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.quiz,
-                            color: currentTab == 2 ? Colors.blue : Colors.black,
-                          ),
-                          Text(
-                            'Quizz',
-                            style: TextStyle(
-                              color:
-                                  currentTab == 2 ? Colors.blue : Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = ProfilePage();
-                        currentTab = 3;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.person,
-                          color: currentTab == 3 ? Colors.blue : Colors.black,
-                        ),
-                        Text(
-                          'Profile',
-                          style: TextStyle(
-                            color: currentTab == 3 ? Colors.blue : Colors.black,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
+      body: screens[sc],
+      bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.blue,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index)=> setState(()=>sc=index,),
+        currentIndex: sc,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Chats'
+
           ),
-        ),
-      ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.search,),
+              label: 'Search'
+
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assignment,),
+            label: 'Quiz',
+
+
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.profile_circled,),
+              label: 'Profile'
+
+          ),
+        ],
+      ) ,
     );
   }
 }
