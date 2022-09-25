@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_interview_preparation/pages/home_screen/list_questions_screen.dart';
 
@@ -15,6 +14,10 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
           child: ListQuetionsScreen(),
         ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        child: Icon(Icons.add)
+      ),
     );
   }
 }
