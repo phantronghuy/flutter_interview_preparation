@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Assets.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Colors.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Fonts.dart';
-
 import '../../objects/Questions.dart';
 
 class ListQuetionsScreen extends StatefulWidget {
@@ -131,9 +130,9 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
-                  hintStyle: TextStyle(fontSize: 12),
+                  hintStyle: const TextStyle(fontSize: 12),
                   hintText: 'Search Company',
-                  prefixIcon: Icon(Icons.search,size: 17),
+                  prefixIcon: const Icon(Icons.search,size: 17),
                   prefixIconColor: Colors.purple.shade900,
                 ),
               ),
