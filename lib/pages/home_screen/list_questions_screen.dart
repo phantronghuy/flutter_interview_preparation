@@ -31,20 +31,18 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: Icon(Icons.add)
-      ),
+        floatingActionButton:
+            FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),
         body: Column(
           children: [
             Expanded(
               flex: 2,
               child: Container(
+                width: double.infinity,
                 child: Image.asset(
                   HomeScreenAssets.banner,
                   fit: BoxFit.fitWidth,
                 ),
-                width: double.infinity,
               ),
             ),
             Expanded(
@@ -81,9 +79,9 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
           onTap: (index) {
             onTapHandle(index);
           },
-          indicatorColor: Color(0xffF0B10E),
+          indicatorColor: const Color(0xffF0B10E),
           indicatorWeight: 5,
-          tabs: [
+          tabs: const [
             Tab(
               child: Text(
                 'Articles',
@@ -123,26 +121,26 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
         ),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Text(
               'Company',
               style: HomeScreenFonts.h1
                   .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.62,
               height: 20,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Color(0xffEDEAEA),
               ),
               child: TextField(
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(top: 1),
+                  contentPadding: const EdgeInsets.only(top: 1),
                   // filled: true,
                   //fillColor: Color(0xff302360),
                   border: OutlineInputBorder(
@@ -173,10 +171,16 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
         (BuildContext context, int index) {
           return InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(
-                    fullscreenDialog: false,
-                    builder: (context) => QaDetailScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: false,
+                  builder: (context) => QaDetailScreen(),
+                  settings: RouteSettings(
+                    arguments: display_list_question[index],
+                  ),
+                ),
+              );
             },
             child: Container(
               decoration: const BoxDecoration(color: Colors.white, boxShadow: [
@@ -253,12 +257,23 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
                         Container(
                           padding: const EdgeInsets.only(top: 1, bottom: 4),
                           width: MediaQuery.of(context).size.width * 9 / 15 - 5,
-                          child: Text(
-                            display_list_question[index].title!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                          child: RichText(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              text: display_list_question[index].title!,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
+                          // child: Text(
+                          //   display_list_question[index].title!,
+                          //   style: const TextStyle(
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
                         ),
                         //Tags
                         Row(
@@ -268,16 +283,29 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
                                 padding:
                                     const EdgeInsets.only(right: 3, bottom: 2),
                                 child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    color: const Color(0xffDFE2EB),
-                                    child: Text(
-                                      item,
+                                  alignment: Alignment.centerLeft,
+                                  color: const Color(0xffDFE2EB),
+                                  child: RichText(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.visible,
+                                    text: TextSpan(
+                                      text: item,
                                       style: const TextStyle(
                                         color: Colors.lightBlue,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
-                                    )),
+                                    ),
+                                  ),
+                                  // child: Text(
+                                  //   item,
+                                  //   style: const TextStyle(
+                                  //     color: Colors.lightBlue,
+                                  //     fontSize: 12,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ),
+                                ),
                               )
                           ],
                         ),

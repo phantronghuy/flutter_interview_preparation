@@ -18,7 +18,7 @@ class Question{
 
 }
 List<Question> listQuestion=[
-  Question(12,4,"Remove duplicate",['algorithms','string'],'This is contentThis is contentThis is contentThis is contentTs',HomeScreenAssets.lgLogo,'10/10/2022'),
+  Question(12,4,"Remove duplicateRemove duplicateRemove duplicateRemove duplicateRemove duplicateRemove duplicateRemove duplicate",['algorithms','string'],'This is contentThis is contentThis is contentThis is contentTs',HomeScreenAssets.lgLogo,'10/10/2022'),
   Question(12,4,"Remove duplicate",['algorithms','string'],'This is content',HomeScreenAssets.lgLogo,'10/10/2022'),
   Question(12,45,"Remove duplicate",['algorithms','string'],'This is content',HomeScreenAssets.lgLogo,'10/10/2022'),
   Question(12,4,"Remove duplicate",['algorithms','string'],'This is content',HomeScreenAssets.lgLogo,'10/10/2022'),
