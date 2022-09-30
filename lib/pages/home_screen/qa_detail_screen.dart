@@ -47,7 +47,9 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                //Content of Question
                 Container(
+                  padding: const EdgeInsets.only(bottom: 20),
                   decoration:
                       const BoxDecoration(color: Colors.white, boxShadow: [
                     BoxShadow(
@@ -86,9 +88,9 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                     ),
                   ),
                 ),
-                //
+                
                 answersAndSortByBloc(question),
-                commentBloc(question),
+                commentBlocColumn(question),
               ],
             ),
           ),
@@ -97,9 +99,25 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
     );
   }
 
-  Widget commentBloc(Question question) {
+  Widget commentBlocColumn(Question question) {
+    return Column(
+      children: <Widget>[
+        ...question.comment!.map((item) {
+          return commentBloc(item);
+        }).toList(),
+      ],
+    );
+  }
+
+  Widget commentBloc(Comment comment) {
     return Container(
-      color: Colors.white,
+      // color: Colors.white,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(width: 0.6),
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -119,7 +137,7 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: Text(
-                        question.upvote.toString(),
+                        comment.upvote!.toString(),
                         style: HomeScreenFonts.upvote,
                       ),
                     ),
@@ -132,7 +150,7 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    listComment[0].answerAccepted == true
+                    comment.answerAccepted == true
                         ? const Icon(
                             Icons.beenhere,
                             color: Colors.green,
@@ -144,136 +162,130 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
             ],
           ),
           //Content comment bloc
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 12, left: 12),
-                width: MediaQuery.of(context).size.width - 70,
-                child: Text(
-                  listComment[0].content!,
-                  style: HomeScreenFonts.content,
+          Padding(
+            padding: const EdgeInsets.only(bottom:4.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 12, left: 12),
+                  width: MediaQuery.of(context).size.width - 70,
+                  child: Text(
+                    comment.content!,
+                    style: HomeScreenFonts.content,
+                  ),
                 ),
-              ),
-              // Avatar Bloc
-              Container(
-                margin: const EdgeInsets.only(top: 15),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Avatar
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 105, top: 10),
-                          width: 30,
-                          height: 30,
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                '${listComment[0].account!.avatar}'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    //Details time, profile, bloc ...
-                    Container(
-                      padding: const EdgeInsets.only(left: 6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                // Avatar Bloc
+                Container(
+                  margin: const EdgeInsets.only(top: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Avatar
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                listComment[0].timeComment!,
-                                style: HomeScreenFonts.timePost,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  padding:
-                                      const EdgeInsets.only(top: 4, bottom: 4),
-                                  child: Text(
-                                    listComment[0].account!.name!,
-                                    style: HomeScreenFonts.nameAccount,
-                                  )),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                listComment[0]
-                                    .account!
-                                    .numberOfPost!
-                                    .toString(),
-                                style: HomeScreenFonts.numberOfPost,
-                              ),
-
-                              //Medal
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                     margin:const EdgeInsets.only(right: 2,left: 2),
-                                    child: Image.asset(
-                                      HomeScreenAssets.goldMedal,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                  Text(
-                                    listComment[0]
-                                        .account!
-                                        .numberOfGold!
-                                        .toString(),
-                                    style: HomeScreenFonts.numberOfPost,
-                                  ),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin:const EdgeInsets.only(right: 2,left: 2),
-                                    child: Image.asset(
-                                      HomeScreenAssets.silverMedal,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                  Text(
-                                    listComment[0]
-                                        .account!
-                                        .numberOfSilver!
-                                        .toString(),
-                                    style: HomeScreenFonts.numberOfPost,
-                                  ),
-                                  Container(
-                                    margin:const EdgeInsets.only(right: 2,left: 2),
-                                    width: 20,
-                                    height: 20,
-                                    child: Image.asset(
-                                      HomeScreenAssets.bronzeMedal,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                  Text(
-                                    listComment[0]
-                                        .account!
-                                        .numberOfBronze!
-                                        .toString(),
-                                    style: HomeScreenFonts.numberOfPost,
-                                  ),
-                                ],
-                              ),
-                            ],
+                          Container(
+                            margin: const EdgeInsets.only(left: 105, top: 10),
+                            width: 30,
+                            height: 30,
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage('${comment.account!.avatar}'),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      //Details time, profile, bloc ...
+                      Container(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  comment.timeComment!,
+                                  style: HomeScreenFonts.timePost,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                    padding:
+                                        const EdgeInsets.only(top: 4, bottom: 4),
+                                    child: Text(
+                                      comment.account!.name!,
+                                      style: HomeScreenFonts.nameAccount,
+                                    )),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  comment.account!.numberOfPost!.toString(),
+                                  style: HomeScreenFonts.numberOfPost,
+                                ),
+
+                                //Medal
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      margin: const EdgeInsets.only(
+                                          right: 2, left: 2),
+                                      child: Image.asset(
+                                        HomeScreenAssets.goldMedal,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                    Text(
+                                      comment.account!.numberOfGold!.toString(),
+                                      style: HomeScreenFonts.numberOfPost,
+                                    ),
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      margin: const EdgeInsets.only(
+                                          right: 2, left: 2),
+                                      child: Image.asset(
+                                        HomeScreenAssets.silverMedal,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                    Text(
+                                      comment.account!.numberOfSilver!.toString(),
+                                      style: HomeScreenFonts.numberOfPost,
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          right: 2, left: 2),
+                                      width: 20,
+                                      height: 20,
+                                      child: Image.asset(
+                                        HomeScreenAssets.bronzeMedal,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                    Text(
+                                      comment.account!.numberOfBronze!.toString(),
+                                      style: HomeScreenFonts.numberOfPost,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
@@ -291,7 +303,7 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
           Container(
             margin: const EdgeInsets.only(left: 10),
             child: Text(
-              '${question.comment} Answers',
+              '${question.comment!.length} Answers',
               style: const TextStyle(
                 color: Color(0xff000000),
                 fontWeight: FontWeight.bold,
@@ -326,7 +338,8 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                   value: sortedBySelected,
                   icon: const Icon(Icons.arrow_downward, size: 9),
                   elevation: 8,
-                  style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                   onChanged: (String? value) {
                     // This is called when the user selects an item.
                     setState(() {
@@ -452,7 +465,7 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 5, bottom: 2),
                 child: Text(
-                  question.comment.toString(),
+                  question.comment!.length.toString(),
                   style: HomeScreenFonts.comment,
                 ),
               ),

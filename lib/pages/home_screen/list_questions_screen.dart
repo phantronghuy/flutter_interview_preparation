@@ -234,7 +234,7 @@ class _ListQuetionsScreenState extends State<ListQuetionsScreen> {
                               padding:
                                   const EdgeInsets.only(left: 5, bottom: 2),
                               child: Text(
-                                display_list_question[index].comment.toString(),
+                                display_list_question[index].comment!.length.toString(),
                                 style: const TextStyle(
                                   fontSize: 11,
                                 ),
