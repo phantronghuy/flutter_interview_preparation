@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class FontFamily{
   static final arial="Arial";
   static final inter='Inter';
+  static final urbanist='Urbanist';
 }
 class HomeScreenFonts{
   static TextStyle h1=TextStyle(

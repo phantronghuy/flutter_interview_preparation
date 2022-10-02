@@ -26,6 +26,14 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(40.0),
         child: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Image.asset(
+              HomeScreenAssets.backButton,
+            ),
+          ),
           iconTheme: const IconThemeData(
             color: Colors.black,
           ),
@@ -47,6 +55,12 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                // Author bloc
+                Row(
+                  children: [
+                    authorBloc(question),
+                  ],
+                ),
                 //Content of Question
                 Container(
                   padding: const EdgeInsets.only(bottom: 20),
@@ -88,7 +102,7 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                     ),
                   ),
                 ),
-                
+
                 answersAndSortByBloc(question),
                 commentBlocColumn(question),
               ],
@@ -99,12 +113,69 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
     );
   }
 
+  Widget authorBloc(Question question) {
+    return Container(
+      margin: const EdgeInsets.only(top: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Avatar
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 65, top: 10),
+                width: 30,
+                height: 30,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage('${question.author!.avatar}'),
+                ),
+              ),
+            ],
+          ),
+          //Details time, profile, bloc ...
+          Container(
+            padding: const EdgeInsets.only(left: 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.only(top: 4, bottom: 4),
+                        child: Text(
+                          question.author!.name!,
+                          style: HomeScreenFonts.nameAccount.copyWith(
+                            fontSize: 18,
+                            color: const Color(0xff000000),
+                            fontFamily: 'Urbanist',
+                          ),
+                        )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      '@tronghuyhihi',
+                      style: HomeScreenFonts.timePost,
+                    ),
+                  ],
+                ),              
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget commentBlocColumn(Question question) {
     return Column(
       children: <Widget>[
-        ...question.comment!.map((item) {
+        //Map => add vào toList xong rã ra từng Widget = ...
+        ...(question.comment!.map((item) {
           return commentBloc(item);
-        }).toList(),
+        }).toList()),
       ],
     );
   }
@@ -163,7 +234,7 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
           ),
           //Content comment bloc
           Padding(
-            padding: const EdgeInsets.only(bottom:4.0),
+            padding: const EdgeInsets.only(bottom: 4.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,8 +285,8 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                             Row(
                               children: [
                                 Container(
-                                    padding:
-                                        const EdgeInsets.only(top: 4, bottom: 4),
+                                    padding: const EdgeInsets.only(
+                                        top: 4, bottom: 4),
                                     child: Text(
                                       comment.account!.name!,
                                       style: HomeScreenFonts.nameAccount,
@@ -257,7 +328,8 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      comment.account!.numberOfSilver!.toString(),
+                                      comment.account!.numberOfSilver!
+                                          .toString(),
                                       style: HomeScreenFonts.numberOfPost,
                                     ),
                                     Container(
@@ -271,7 +343,8 @@ class _QaDetailScreenState extends State<QaDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      comment.account!.numberOfBronze!.toString(),
+                                      comment.account!.numberOfBronze!
+                                          .toString(),
                                       style: HomeScreenFonts.numberOfPost,
                                     ),
                                   ],
