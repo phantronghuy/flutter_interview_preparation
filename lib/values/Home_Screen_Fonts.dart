@@ -15,6 +15,12 @@ class HomeScreenFonts{
     fontWeight: FontWeight.bold,
     color: const Color(0xff000000),
   );
+  static TextStyle titleArticle = TextStyle(
+    fontFamily: FontFamily.arial,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: const Color(0xff000000),
+  );
   static TextStyle tagsName = TextStyle(
     fontFamily: FontFamily.inter,
     fontSize: 12,
