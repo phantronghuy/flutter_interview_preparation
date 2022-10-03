@@ -48,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final screens=[HomePage(),ProfilePage(),QuizzPage(),ProfilePage()];
+  final screens=[HomePage(),SearchPage(),QuizzPage(),ProfilePage()];
   int sc=0;
 
   @override
