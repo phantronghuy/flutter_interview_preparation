@@ -83,7 +83,7 @@ class _QaDetailScreenState extends State<ArticleDetailScreen> {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage('${articlePost.account!.avatar}'),
+            backgroundImage: NetworkImage('${articlePost.account.avatar}'),
           ),
           SizedBox(width: 20,),
           Column(
@@ -128,7 +128,7 @@ class _QaDetailScreenState extends State<ArticleDetailScreen> {
   Widget commentBlocColumn(ArticlePost articlePost) {
     return Column(
       children: <Widget>[
-        ...articlePost.comment!.map((item) {
+        ...articlePost.comment.map((item) {
           return commentBloc(item);
         }).toList(),
       ],
@@ -332,7 +332,7 @@ class _QaDetailScreenState extends State<ArticleDetailScreen> {
           Container(
             margin: const EdgeInsets.only(left: 10),
             child: Text(
-              '${articlePost.comment!.length} Comments',
+              '${articlePost.comment.length} Comments',
               style: const TextStyle(
                 color: Color(0xff000000),
                 fontWeight: FontWeight.bold,
@@ -404,7 +404,7 @@ class _QaDetailScreenState extends State<ArticleDetailScreen> {
         Container(
           padding: const EdgeInsets.only(top: 2, bottom: 4),
           child: Text(
-            articlePost.title!,
+            articlePost.title,
             style: HomeScreenFonts.titleArticle,
           ),
         ),

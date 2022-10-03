@@ -3,9 +3,12 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_interview_preparation/objects/Category.dart';
 import 'package:flutter_interview_preparation/objects/Chapter.dart';
+import 'package:flutter_interview_preparation/objects/QuizSet.dart';
 import 'package:flutter_interview_preparation/values/Home_Screen_Assets.dart';
 import 'package:flutter_interview_preparation/values/Quizz_Screen_Fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../objects/QuizTopic.dart';
 import '../../values/Quizz_Screen_Assets.dart';
 
 class QuizzPage extends StatefulWidget {
@@ -17,8 +20,11 @@ class QuizzPage extends StatefulWidget {
 
 class _QuizzPageState extends State<QuizzPage> {
   List<Category> categories = [];
+  List<QuizSet> quizset = [];
+  List<QuizSet> quizsetForDisplayListView = [];
   int currentIndexQuizzItem = 0;
   late PageController _pageController;
+  late bool isViewAllQuiz;
   @override
   void initState() {
     categories = [
@@ -29,6 +35,14 @@ class _QuizzPageState extends State<QuizzPage> {
     ];
     currentIndexQuizzItem = 0;
     _pageController = PageController(viewportFraction: 0.75);
+
+    quizset = [
+      QuizSet('Aptitude', true, listQuizTopic),
+      QuizSet('Web technologies', true, listQuizTopic),
+      QuizSet('Engineering Mathematics', true, listQuizTopic),
+    ];
+    quizsetForDisplayListView=[];
+    isViewAllQuiz=false;
   }
 
   @override
@@ -42,7 +56,7 @@ class _QuizzPageState extends State<QuizzPage> {
         child: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(top: 4, left: 4, right: 4, bottom: 4),
+                const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 4),
             child: Column(
               children: [
                 // Popular column bloc
@@ -117,7 +131,8 @@ class _QuizzPageState extends State<QuizzPage> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  categories = [...listCategory];
+                                  quizsetForDisplayListView=[...listQuizSet];
+                                  isViewAllQuiz=true;
                                 });
                               },
                               child: Container(
@@ -144,8 +159,7 @@ class _QuizzPageState extends State<QuizzPage> {
                       ],
                     ),
                   ],
-                ),
-
+                ),   
                 const SizedBox(
                   height: 20,
                 ),
@@ -161,25 +175,39 @@ class _QuizzPageState extends State<QuizzPage> {
                     },
                     controller: _pageController,
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
+                    itemCount: quizset.length,
                     itemBuilder: (context, index) {
-                      return itemQuizzCard('Aptitude');
+                      return itemQuizzCard(quizset[index]);
                     },
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   height: 10,
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return buildIndicator(
-                          index == currentIndexQuizzItem, size);
-                    },
+                  // child: ListView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemCount: 5,
+                  //   itemBuilder: (context, index) {
+                  //     return buildIndicator(
+                  //         index == currentIndexQuizzItem, size);
+                  //   },
+                  // ),
+                  child: SmoothPageIndicator(
+                    controller: _pageController,
+                    count: quizset.length,
+                    effect: const WormEffect(
+                      activeDotColor: Color(0xffC7EDE6),
+                      dotHeight: 10,
+                      dotWidth: 10,
+                    ),
                   ),
                 ),
+                const SizedBox(height: 20,),
+
+                if (isViewAllQuiz==true)...quizsetForDisplayListView.map((item) {
+                      return quizzBlocWhenClickViewAll(item);
+                    }).toList(),
               ],
             ),
           ),
@@ -187,7 +215,71 @@ class _QuizzPageState extends State<QuizzPage> {
       ),
     );
   }
-   Widget buildIndicator(bool isActive, Size size) {
+
+  Widget quizzBlocWhenClickViewAll(QuizSet quizSet) {
+    int numberOfQuizzes=0;
+    quizSet.listQuizTopic!.forEach((e){
+      numberOfQuizzes+=e.listQuiz!.length;
+    } );
+    return InkWell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            child: Container(
+              width: MediaQuery.of(context).size.width - 40,
+              height: 90,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: AssetImage(QuizScreenAssets.img_bg_quizz_item),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(top: 12, left: 12),
+                        child: Text(
+                          quizSet.topic!,
+                          style: QuizzScreenFont.titleCategory,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                          bottom: 12,
+                          left: 12,
+                        ),
+                        child: Text(
+                          '${quizSet.listQuizTopic!.length.toString()} Quizzes | ${numberOfQuizzes}  Questions',
+                          style: QuizzScreenFont.textChapter,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  // Container(
+                  //   margin: const EdgeInsets.only(right: 8),
+                  //   child: Image.asset(quizSet.favourite!),
+                  // ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildIndicator(bool isActive, Size size) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       //width: isActive ? size.width * 1 / 5 : 15,
@@ -224,7 +316,11 @@ class _QuizzPageState extends State<QuizzPage> {
   //   );
   // }
 
-  Widget itemQuizzCard(String title) {
+  Widget itemQuizzCard(QuizSet quizSet) {
+     int numberOfQuizzes=0;
+    quizSet.listQuizTopic!.forEach((e){
+      numberOfQuizzes+=e.listQuiz!.length;
+    } );
     return Row(
       children: [
         Container(
@@ -248,7 +344,7 @@ class _QuizzPageState extends State<QuizzPage> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   text: TextSpan(
-                    text: title,
+                    text: quizSet.topic!,
                     style: QuizzScreenFont.titleCategory,
                   ),
                 ),
@@ -257,7 +353,7 @@ class _QuizzPageState extends State<QuizzPage> {
                 bottom: 12,
                 left: 4,
                 child: Text(
-                  '13 Quizz | 450 Questions',
+                 '${quizSet.listQuizTopic!.length.toString()} Quizzes | ${numberOfQuizzes}  Questions',
                   style: QuizzScreenFont.textChapter,
                 ),
               ),

@@ -694,7 +694,7 @@ class _SearchPageState extends State<SearchPage> {
                 visible: choice==3,
                 child: Column(
                   children: [
-                   
+
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: Column(
