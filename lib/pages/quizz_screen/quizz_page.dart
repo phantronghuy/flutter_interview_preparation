@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_interview_preparation/objects/Category.dart';
 import 'package:flutter_interview_preparation/objects/Chapter.dart';
 import 'package:flutter_interview_preparation/objects/QuizSet.dart';
-import 'package:flutter_interview_preparation/values/Home_Screen_Assets.dart';
+import 'package:flutter_interview_preparation/objects/QuizTopic.dart';
+import 'package:flutter_interview_preparation/pages/quizz_screen/quizz_category.dart';
+import 'package:flutter_interview_preparation/pages/quizz_screen/quizz_topic.dart';
 import 'package:flutter_interview_preparation/values/Quizz_Screen_Fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../objects/QuizTopic.dart';
 import '../../values/Quizz_Screen_Assets.dart';
 
 class QuizzPage extends StatefulWidget {
@@ -27,6 +25,7 @@ class _QuizzPageState extends State<QuizzPage> {
   late bool isViewAllQuiz;
   @override
   void initState() {
+    super.initState();
     categories = [
       Category('Algorithm0', listChapter, QuizScreenAssets.img_Algorithm),
       Category(
@@ -218,10 +217,22 @@ class _QuizzPageState extends State<QuizzPage> {
 
   Widget quizzBlocWhenClickViewAll(QuizSet quizSet) {
     int numberOfQuizzes=0;
-    quizSet.listQuizTopic!.forEach((e){
+    for (var e in quizSet.listQuizTopic!) {
       numberOfQuizzes+=e.listQuiz!.length;
-    } );
+    }
     return InkWell(
+      onTap: (){
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: false,
+                  builder: (context) =>  QuizTopicScreen(),
+                  settings: RouteSettings(
+                    arguments: quizSet,
+                  ),
+                ),
+              );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -321,60 +332,86 @@ class _QuizzPageState extends State<QuizzPage> {
     quizSet.listQuizTopic!.forEach((e){
       numberOfQuizzes+=e.listQuiz!.length;
     } );
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(left: 4),
-          alignment: Alignment.centerLeft,
-          width: MediaQuery.of(context).size.width * 2 / 3,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(QuizScreenAssets.img_bg_quizz_item),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              Positioned(
-                width: MediaQuery.of(context).size.width * 2 / 3 - 40,
-                top: 12,
-                left: 4,
-                child: RichText(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(
-                    text: quizSet.topic!,
-                    style: QuizzScreenFont.titleCategory,
+    return InkWell(
+      onTap: (){
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: false,
+                  builder: (context) =>  QuizTopicScreen(),
+                  settings: RouteSettings(
+                    arguments: quizSet,
                   ),
                 ),
+              );
+      },
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 4),
+            alignment: Alignment.centerLeft,
+            width: MediaQuery.of(context).size.width * 2 / 3,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(QuizScreenAssets.img_bg_quizz_item),
+                fit: BoxFit.cover,
               ),
-              Positioned(
-                bottom: 12,
-                left: 4,
-                child: Text(
-                 '${quizSet.listQuizTopic!.length.toString()} Quizzes | ${numberOfQuizzes}  Questions',
-                  style: QuizzScreenFont.textChapter,
+            ),
+            child: Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                Positioned(
+                  width: MediaQuery.of(context).size.width * 2 / 3 - 40,
+                  top: 12,
+                  left: 4,
+                  child: RichText(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      text: quizSet.topic!,
+                      style: QuizzScreenFont.titleCategory,
+                    ),
+                  ),
                 ),
-              ),
-              const Positioned(
-                right: 10,
-                top: 12,
-                child: Icon(
-                  Icons.bookmark_border,
-                  color: Colors.pink,
+                Positioned(
+                  bottom: 12,
+                  left: 4,
+                  child: Text(
+                   '${quizSet.listQuizTopic!.length.toString()} Quizzes | $numberOfQuizzes  Questions',
+                    style: QuizzScreenFont.textChapter,
+                  ),
                 ),
-              ),
-            ],
+                const Positioned(
+                  right: 10,
+                  top: 12,
+                  child: Icon(
+                    Icons.bookmark_border,
+                    color: Colors.pink,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        // SizedBox(width: 2,),
-      ],
+          // SizedBox(width: 2,),
+        ],
+      ),
     );
   }
 
   Widget categoryBloc(Category category) {
     return InkWell(
+      onTap: (){
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: false,
+                  builder: (context) =>  QuizCategoryScreen(),
+                  settings: RouteSettings(
+                    arguments: category
+                  ),
+                ),
+              );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

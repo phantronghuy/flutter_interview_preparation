@@ -1,9 +1,9 @@
 class Quiz{
   String? content;
   List<String>? listSuggest;
-  int? answer; 
+  int? correctAnswer; 
   bool? isAnswer;
-  Quiz(this.content,this.listSuggest,this.answer,this.isAnswer);
+  Quiz(this.content,this.listSuggest,this.correctAnswer,this.isAnswer);
 }
 List<Quiz> listQuiz=[
 Quiz('What is HTML', ['A','B','C','D'],0,true),

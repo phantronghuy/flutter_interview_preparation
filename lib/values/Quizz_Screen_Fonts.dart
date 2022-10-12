@@ -27,4 +27,16 @@ class QuizzScreenFont{
     fontWeight: FontWeight.w400,
     color: Colors.grey[600],
   );
+  static TextStyle numberOfQuizDone=TextStyle(
+    fontFamily: FontFamily.urbanist,
+    fontSize: 10,
+    fontWeight: FontWeight.w300,
+    color:const Color(0xff000000),
+  );
+  static TextStyle topic=TextStyle(
+    fontFamily: FontFamily.urbanist,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color:const Color(0xff000000),
+  );
 }

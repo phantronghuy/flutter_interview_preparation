@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_interview_preparation/objects/Company.dart';
+import 'package:flutter_interview_preparation/pages/search_screen/detail_company.dart';
 import 'package:flutter_interview_preparation/values/Quizz_Screen_Fonts.dart';
 
 import '../../objects/Account.dart';
@@ -491,7 +492,16 @@ class _SearchPageState extends State<SearchPage> {
         children: List.generate(_companyList.length, (index) {
           return InkWell(
             onTap: () {
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: false,
+                  builder: (context) => DetailCompany(),
+                  settings: RouteSettings(
+                    arguments: _companyList[index],
+                  ),
+                ),
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 5),
@@ -552,6 +562,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
         backgroundColor: Colors.grey.shade50,
