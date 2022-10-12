@@ -3,7 +3,6 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_interview_preparation/objects/Company.dart';
 import 'package:flutter_interview_preparation/values/Quizz_Screen_Fonts.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 
 import '../../objects/Account.dart';
 import '../../objects/Articles.dart';
